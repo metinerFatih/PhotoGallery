@@ -1,0 +1,16 @@
+﻿@model ResimViewModel
+@{
+    ViewData["Title"] = "Resim Galerisi";
+}
+
+<h1>Resim Galerisi</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="d-flex align-items-center">
+        <label class="me-2">Resim:</label>
+        <input type="file" class="form-control w-auto me-3" required />
+        <label class="me-2">Başlık:</label>
+        <input type="text" class="form-control w-auto me-3" placeholder="Başlık..." required />
+        <button class="btn btn-outline-secondary">Yükle</button>
+    </div>
+</form>

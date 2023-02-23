@@ -5,12 +5,29 @@
 
 <h1>Resim Galerisi</h1>
 
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <div asp-validation-summary="All" class="text-danger"></div>
+    </div>
+}
+
 <form method="post" enctype="multipart/form-data">
     <div class="d-flex align-items-center">
         <label class="me-2">Resim:</label>
-        <input type="file" class="form-control w-auto me-3" required />
+        <input asp-for="Dosya" type="file" class="form-control w-auto me-3" />
         <label class="me-2">Başlık:</label>
-        <input type="text" class="form-control w-auto me-3" placeholder="Başlık..." required />
+        <input asp-for="Baslik" type="text" class="form-control w-auto me-3" placeholder="Başlık..." />
         <button class="btn btn-outline-secondary">Yükle</button>
     </div>
 </form>
+
+<div class="row mt-4">
+    @foreach (var item in Model.Resimler)
+    {
+        <div class="col-sm-2 text-center mb-3 me-2">
+            <img src="~/img/@item.DosyaAd" alt="Resim" height="100px" width="100px" />
+            <h4>@item.Baslik</h4>
+        </div>
+    }
+</div>

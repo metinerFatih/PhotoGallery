@@ -18,7 +18,7 @@ namespace PhotoGallery.Attributes
                 ErrorMessage = $"Dosya boyutu{MaksDosyaBoyutuMb} MB'dan büyük";
                 return false;
             }
-            else if (file.ContentType.StartsWith("image/"))
+            else if (!file.ContentType.StartsWith("image/"))
             {
                 ErrorMessage = "Geçersiz resim formatı.";
                 return false;

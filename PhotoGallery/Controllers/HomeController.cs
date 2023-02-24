@@ -48,7 +48,25 @@ namespace PhotoGallery.Controllers
             vm.Resimler = _db.Resimler.ToList();
             return View(vm);
         }
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Sil(int id)
+        {
+            var resim = _db.Resimler.Find(id);
 
+            if (resim == null)
+                return NotFound();
+
+            string dosyaYolu = Path.Combine(_env.WebRootPath, "img", resim.DosyaAd);
+
+            if(System.IO.File.Exists(dosyaYolu))
+                System.IO.File.Delete(dosyaYolu); // resmi dosyaladan siler.
+
+            _db.Remove(resim); // database'den nesneyi siler.
+            _db.SaveChanges();
+
+            TempData["mesaj"] = "Resim başarıyla silindi.";
+            return RedirectToAction("Index");
+        }
         public IActionResult Privacy()
         {
 

@@ -17,14 +17,28 @@ namespace PhotoGallery.Controllers
             _env = env;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? ara)
         {
-            var vm = new ResimViewModel()
+            ResimViewModel vm = new ResimViewModel();
+            if (!string.IsNullOrEmpty(ara))
             {
-                Resimler = _db.Resimler.ToList()
-            };
+                vm.Resimler = _db.Resimler.Where(x => x.Baslik.Contains(ara)).ToList();
+            }
+            else
+                vm.Resimler = _db.Resimler.ToList();
 
             return View(vm);
+        }
+        public IActionResult Ara(string ara)
+        {
+            if (ara == null)
+                return RedirectToAction("Index");
+            var vm = new ResimViewModel()
+            {
+                Resimler = _db.Resimler.Where(x => x.Baslik.Contains(ara)).ToList()
+            };
+
+            return RedirectToAction("Index", new { ara = ara });
         }
         [HttpPost]
         public IActionResult Index(ResimViewModel vm)
@@ -58,7 +72,7 @@ namespace PhotoGallery.Controllers
 
             string dosyaYolu = Path.Combine(_env.WebRootPath, "img", resim.DosyaAd);
 
-            if(System.IO.File.Exists(dosyaYolu))
+            if (System.IO.File.Exists(dosyaYolu))
                 System.IO.File.Delete(dosyaYolu); // resmi dosyaladan siler.
 
             _db.Remove(resim); // database'den nesneyi siler.
@@ -67,6 +81,7 @@ namespace PhotoGallery.Controllers
             TempData["mesaj"] = "Resim başarıyla silindi.";
             return RedirectToAction("Index");
         }
+
         public IActionResult Privacy()
         {
 

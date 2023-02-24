@@ -3,6 +3,11 @@
     ViewData["Title"] = "Resim Galerisi";
 }
 
+<form asp-action="Ara" method="get" class="d-flex align-items-center">
+    <input class="m-2" type="text" name="ara" placeholder="Arama yapın...">
+    <button class="btn btn-primary" type="submit"><i class="fa-solid fa-search"></i></button>
+</form>
+
 <h1>Resim Galerisi</h1>
 
 @if (!ViewData.ModelState.IsValid)
